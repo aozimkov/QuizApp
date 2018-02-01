@@ -2,14 +2,11 @@ package com.example.android.quizapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,10 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout quizAnswers;
     LinearLayout.LayoutParams answersLayoutParams;
     Button submitButton;
-
-    Toast toastRight;
-    Toast toastWrong;
-    Toast toastEmpty;
 
     Toast toastStatus;
 
@@ -108,10 +97,6 @@ public class MainActivity extends AppCompatActivity {
         q.add(quizCard7);
         q.add(quizCard8);
 
-        toastRight = Toast.makeText(getApplicationContext(), R.string.right, Toast.LENGTH_SHORT);
-        toastWrong = Toast.makeText(getApplicationContext(), R.string.wrong, Toast.LENGTH_SHORT);
-        toastEmpty = Toast.makeText(getApplicationContext(), R.string.empty, Toast.LENGTH_SHORT);
-
         if (stepNo == -1) {
             firstPage();
         } else {
@@ -157,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (stepNo < q.size()) {
 
-            if (q.get(stepNo).type == "check"){
+            if (q.get(stepNo).type.equals("check")){
                 question.setText(getString(R.string.notequals, q.get(stepNo).getQuestion()));
             } else {
                 question.setText(getString(R.string.equals, q.get(stepNo).getQuestion()));

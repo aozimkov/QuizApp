@@ -21,17 +21,16 @@ public class QuizCard
      * answerOne - answerFour - Answers for radio and check card types
      */
 
-    int id;
+    private int id;
     String type;
-    String question;
-    int questionImage;
-    String rightAnswer;
-    String rightAnswerOne;
-    String rightAnswerTwo;
-    String editable;
-    String answerOne;
-    String answerTwo;
-    String answerThree;
+    private String question;
+    private int questionImage;
+    private String rightAnswer;
+    private String rightAnswerOne;
+    private String rightAnswerTwo;
+    private String answerOne;
+    private String answerTwo;
+    private String answerThree;
 
     /**
      * Constructor for Radio
@@ -75,7 +74,6 @@ public class QuizCard
         this.question = question;
         this.questionImage = questionImage;
         this.rightAnswer = rightAnswer;
-        this.editable = editable;
     }
 
     /**
@@ -100,29 +98,6 @@ public class QuizCard
 
     public String getRightAnswer() {
         return rightAnswer;
-    }
-
-    public String getRightAnswerOne() {
-        return rightAnswerOne;
-    }
-    public String getRightAnswerTwo() {
-        return rightAnswerTwo;
-    }
-
-    public String getEditable() {
-        return editable;
-    }
-
-    public String getAnswerOne() {
-        return answerOne;
-    }
-
-    public String getAnswerTwo() {
-        return answerTwo;
-    }
-
-    public String getAnswerThree() {
-        return answerThree;
     }
 
     public String[] getAnswers() {
