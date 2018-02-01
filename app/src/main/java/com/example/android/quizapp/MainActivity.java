@@ -222,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 radioGroup.setLayoutParams(params);
                 radioGroup.setId(R.id.radio_group);
                 quizAnswers.addView(radioGroup);
-                radioButtonsChecker = false;
                 break;
 
             case "check":
@@ -296,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                radioButtonsChecker = false;
                 break;
 
             case "check":
