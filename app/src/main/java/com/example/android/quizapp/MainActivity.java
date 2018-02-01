@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     static final String STATE_STEPNO = "stepNo";
     static final String STATE_RIGHTANSWERS = "rightAnswersCounter";
     static final String STATE_BUTTONTEXT = "buttonText";
+    static final String STATE_RADIOBUTTONSCHECKER = "radioButtonsChecker";
 
     String buttonText;
 
@@ -66,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    QuizCard quizCard1 = new QuizCard(1, "radio", "Чему равно IX ?", 0, "9", "4", "11", "9");
-    QuizCard quizCard2 = new QuizCard(2, "check", "Чему НЕ равно XXXIII ?", 0, "153", "303", "33", "153", "303");
-    QuizCard quizCard3 = new QuizCard(3, "radio", "Чему равно CXLIV ?", 0, "144", "134", "144", "164");
-    QuizCard quizCard4 = new QuizCard(4, "radio", "Чему равно DCCLXXXII ?", 0, "782", "432", "732", "782");
-    QuizCard quizCard5 = new QuizCard(5, "check", "Чему НЕ равно CMXCIX ?", 0, "199", "1199", "199", "1199", "999");
-    QuizCard quizCard6 = new QuizCard(6, "radio", "Чему равно MCDXL ?", 0, "1440", "1660", "1550", "1440");
-    QuizCard quizCard7 = new QuizCard(7, "check", "Чему НЕ равно MCMLXXXVI ?", 0, "2586", "1896", "2586", "1896", "1986");
-    QuizCard quizCard8 = new QuizCard(8, "input", "Чему равно MMMMCDLXIX ?", 0, "4469", "0");
+    QuizCard quizCard1 = new QuizCard(1, "radio", "IX", 0, "9", "4", "11", "9");
+    QuizCard quizCard2 = new QuizCard(2, "check", "XXXIII", 0, "153", "303", "33", "153", "303");
+    QuizCard quizCard3 = new QuizCard(3, "radio", "CXLIV", 0, "144", "134", "144", "164");
+    QuizCard quizCard4 = new QuizCard(4, "radio", "DCCLXXXII", 0, "782", "432", "732", "782");
+    QuizCard quizCard5 = new QuizCard(5, "check", "CMXCIX", 0, "199", "1199", "199", "1199", "999");
+    QuizCard quizCard6 = new QuizCard(6, "radio", "MCDXL", 0, "1440", "1660", "1550", "1440");
+    QuizCard quizCard7 = new QuizCard(7, "check", "MCMLXXXVI", 0, "2586", "1896", "2586", "1896", "1986");
+    QuizCard quizCard8 = new QuizCard(8, "input", "MMMMCDLXIX", 0, "4469", "0");
 
     ArrayList<QuizCard> q = new ArrayList<>();
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             stepNo = savedInstanceState.getInt(STATE_STEPNO);
             rightAnswersCounter = savedInstanceState.getInt(STATE_RIGHTANSWERS);
             buttonText = savedInstanceState.getString(STATE_BUTTONTEXT);
+            radioButtonsChecker = savedInstanceState.getBoolean(STATE_RADIOBUTTONSCHECKER);
         }
 
         submitButton = (Button) findViewById(R.id.submit_button);
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_STEPNO, stepNo);
         outState.putInt(STATE_RIGHTANSWERS, rightAnswersCounter);
         outState.putString(STATE_BUTTONTEXT, buttonText);
+        outState.putBoolean(STATE_RADIOBUTTONSCHECKER, radioButtonsChecker);
 
         super.onSaveInstanceState(outState);
 
