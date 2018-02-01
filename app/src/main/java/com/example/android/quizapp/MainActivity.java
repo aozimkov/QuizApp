@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     static final String STATE_RIGHTANSWERS = "rightAnswersCounter";
     static final String STATE_BUTTONTEXT = "buttonText";
     static final String STATE_RADIOBUTTONSCHECKER = "radioButtonsChecker";
+    static final String STATE_CURRENTANSWER = "currentAnswer";
 
     String buttonText;
 
@@ -46,26 +47,12 @@ public class MainActivity extends AppCompatActivity {
     Toast toastWrong;
     Toast toastEmpty;
 
+    Toast toastStatus;
+
     int stepNo = -1;
     boolean currentAnswer;
     int rightAnswersCounter;
     boolean radioButtonsChecker;
-
-
-    /**
-     * Cards:
-     * <p>
-     * 1 | radio | Чему равно IX ?              | 0 | 9 | 4 | 11 | 9 |
-     * 2 | check | Чему НЕ равно XXXIII ?       | 0 | 153, 103 | 33 | 153 | 303 |
-     * 3 | radio | Чему равно CXLIV ?           | 0 | 144 | 134 | 144 | 164 |
-     * 4 | radio | Чему равно DCCLXXXII ?       | 0 | 782 | 432 | 732 | 782 |
-     * 5 | check | Чему НЕ равно CMXCIX ?       | 0 | 199, 1199 | 199 | 1199 | 999 |
-     * 6 | radio | Чему равно MCDXL ?           | 0 | 1440 | 1660 | 1550 | 1440 |
-     * 7 | check | Чему НЕ равно MCMLXXXVI ?    | 0 | 2586, 1896 | 2586 | 1896 | 1986 |
-     * 8 | input | Чему равно MMMMCDLXIX ?      | 0 | 4469 |
-     */
-
-
 
     QuizCard quizCard1 = new QuizCard(1, "radio", "IX", 0, "9", "4", "11", "9");
     QuizCard quizCard2 = new QuizCard(2, "check", "XXXIII", 0, "153", "303", "33", "153", "303");
@@ -98,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             rightAnswersCounter = savedInstanceState.getInt(STATE_RIGHTANSWERS);
             buttonText = savedInstanceState.getString(STATE_BUTTONTEXT);
             radioButtonsChecker = savedInstanceState.getBoolean(STATE_RADIOBUTTONSCHECKER);
+            currentAnswer = savedInstanceState.getBoolean(STATE_CURRENTANSWER);
         }
 
         submitButton = (Button) findViewById(R.id.submit_button);
@@ -120,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
         q.add(quizCard7);
         q.add(quizCard8);
 
-        toastRight = Toast.makeText(getApplicationContext(), "Right!", Toast.LENGTH_SHORT);
-        toastWrong = Toast.makeText(getApplicationContext(), "Wrong!", Toast.LENGTH_SHORT);
-        toastEmpty = Toast.makeText(getApplicationContext(), "Please input your choice!", Toast.LENGTH_SHORT);
+        toastRight = Toast.makeText(getApplicationContext(), R.string.right, Toast.LENGTH_SHORT);
+        toastWrong = Toast.makeText(getApplicationContext(), R.string.wrong, Toast.LENGTH_SHORT);
+        toastEmpty = Toast.makeText(getApplicationContext(), R.string.empty, Toast.LENGTH_SHORT);
 
         if (stepNo == -1) {
             firstPage();
@@ -139,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_RIGHTANSWERS, rightAnswersCounter);
         outState.putString(STATE_BUTTONTEXT, buttonText);
         outState.putBoolean(STATE_RADIOBUTTONSCHECKER, radioButtonsChecker);
+        outState.putBoolean(STATE_CURRENTANSWER, currentAnswer);
 
         super.onSaveInstanceState(outState);
 
@@ -148,14 +137,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to get out?")
+                .setMessage(R.string.quitmessage)
                 .setCancelable(false)
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         finish();
                     }
@@ -168,7 +157,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (stepNo < q.size()) {
 
-            question.setText(q.get(stepNo).getQuestion());
+            if (q.get(stepNo).type == "check"){
+                question.setText(getString(R.string.notequals, q.get(stepNo).getQuestion()));
+            } else {
+                question.setText(getString(R.string.equals, q.get(stepNo).getQuestion()));
+            }
+
             submitButton.setText(R.string.next);
 
             if (q.get(stepNo).getQuestionImage() != 0) {
@@ -181,11 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            question.setText("Quiz is Done. Thanks!");
+            question.setText(R.string.done);
 
             TextView quizResults = new TextView(this);
-            quizResults.setText("Your have " + rightAnswersCounter + "/" + q.size() +
-                    " right answers. Cool!");
+            quizResults.setText(getString(R.string.result, rightAnswersCounter, q.size() ));
             quizAnswers.addView(quizResults);
 
             submitButton.setText(R.string.reset);
@@ -246,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
             case "input":
 
                 EditText answer = new EditText(this);
-                answer.setHint("Example: 100");
+                answer.setHint(R.string.inputexample);
                 answer.setId(R.id.input_field);
                 quizAnswers.addView(answer);
                 answer.requestFocus();
@@ -364,15 +357,6 @@ public class MainActivity extends AppCompatActivity {
         nextQuestion();
     }
 
-    private void showResult(boolean answerRight) {
-
-        if (answerRight) {
-            toastRight.show();
-        } else {
-            toastWrong.show();
-        }
-    }
-
     private void resetQuiz() {
         stepNo = -1;
         currentAnswer = false;
@@ -383,11 +367,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firstPage(){
-        question.setText("Древнеримский тест по математике");
+        question.setText(R.string.title);
         question.setGravity(Gravity.CENTER);
 
         TextView quizResults = new TextView(this);
-        quizResults.setText("Только избранные смогут ответить на X из X вопросов. Попробуй и ты!");
+        quizResults.setText(R.string.description);
         quizAnswers.addView(quizResults);
 
         quizAnswers.setLayoutParams(answersLayoutParams);
@@ -396,9 +380,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void showToast(int toast){
+        if (toastStatus != null) toastStatus.cancel();
+        toastStatus = Toast.makeText(this, toast, Toast.LENGTH_SHORT);
+        toastStatus.show();
+    }
+
+
+    private void showResult(boolean answerRight) {
+
+        if (answerRight) {
+            showToast(R.string.right);
+        } else {
+            showToast(R.string.wrong);
+        }
+    }
+
+
     private void nothingChecked(){
 
-        toastEmpty.show();
+        showToast(R.string.empty);
 
     }
 }

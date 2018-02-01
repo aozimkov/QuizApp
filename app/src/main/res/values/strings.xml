@@ -1,6 +1,28 @@
 <resources>
     <string name="app_name">Quiz App</string>
+
+    <string name="title">Ancient Roman Mathematical Test</string>
+    <string name="description">Only A Roman Will Score VIII/VIII In This Roman Numerals Quiz</string>
+
     <string name="next">Next</string>
     <string name="start">Start Quiz</string>
     <string name="reset">Restart</string>
+
+    <string name="equals">%1$s is equal</string>
+    <string name="notequals">%1$s is NOT equal to</string>
+
+    <string name="result">"Your have $1$d/%2$d right answers. Cool!"</string>
+
+    <string name="right">Right!</string>
+    <string name="wrong">Wrong!</string>
+    <string name="empty">Please choose an answer</string>
+
+    <string name="quitmessage">Are you sure you want to exit?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+
+    <string name="done">Quiz already done! Thanks!</string>
+    <string name="inputexample">Example: 100</string>
+
+
 </resources>
