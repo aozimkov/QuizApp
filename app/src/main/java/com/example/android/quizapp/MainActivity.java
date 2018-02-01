@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     String buttonText; //String variable for Button
 
-    TextView question; //String variable for question text
+    TextView question; // View for question text
+    TextView quizResults; // Small text in answers layout
     LinearLayout quizCard; // LinnearLayout View for Quiz cards
     LinearLayout quizAnswers; // View for answers
-    LinearLayout.LayoutParams answersLayoutParams; //params for answers view
+    LinearLayout.LayoutParams answersLayoutParams;//params for answers view
     Button submitButton; // Next Button View
 
     Toast toastStatus; //Toast container
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     boolean currentAnswer; // Current Answer status right or false
     int rightAnswersCounter; // Total right answers
     boolean radioButtonsChecker; // Keep radiobutton checks
-
 
     /**
      * Set up Quiz cards and put them in "q" array
@@ -100,10 +100,16 @@ public class MainActivity extends AppCompatActivity {
         quizCard = findViewById(R.id.quiz_card);
         quizAnswers = findViewById(R.id.quiz_answers);
         question = findViewById(R.id.quiz_header);
+        quizResults = new TextView(this);
+        quizResults.setGravity(Gravity.CENTER);
+
+        question.setGravity(Gravity.CENTER);
 
         answersLayoutParams = new LinearLayout.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
         answersLayoutParams.gravity = Gravity.CENTER;
+
+        quizAnswers.setLayoutParams(answersLayoutParams);
 
         quizCard8.setQuestionImage(R.drawable.high_level);
 
@@ -168,8 +174,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void nextQuestion() {
 
-        question.setGravity(Gravity.CENTER);
-
         if (stepNo < q.size()) {
 
             if (q.get(stepNo).type.equals("check")){
@@ -192,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
             question.setText(R.string.done);
 
-            TextView quizResults = new TextView(this);
             quizResults.setText(getString(R.string.result, rightAnswersCounter, q.size() ));
             quizAnswers.addView(quizResults);
 
@@ -247,8 +250,6 @@ public class MainActivity extends AppCompatActivity {
                     checkBox[i].setText(answers[i]);
                     quizAnswers.addView(checkBox[i]);
                 }
-
-                quizAnswers.setLayoutParams(answersLayoutParams);
 
                 checkBox[0].setId(R.id.checkbox_1);
                 checkBox[1].setId(R.id.checkbox_2);
@@ -402,16 +403,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void firstPage(){
         question.setText(R.string.title);
-        question.setGravity(Gravity.CENTER);
-
-        TextView quizResults = new TextView(this);
         quizResults.setText(R.string.description);
         quizAnswers.addView(quizResults);
-
-        quizAnswers.setLayoutParams(answersLayoutParams);
-
         submitButton.setText(R.string.start);
-
     }
 
     /**
