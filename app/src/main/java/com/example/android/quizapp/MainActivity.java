@@ -22,28 +22,43 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Seting up STATES for onSaveInstance
     static final String STATE_STEPNO = "stepNo";
     static final String STATE_RIGHTANSWERS = "rightAnswersCounter";
     static final String STATE_BUTTONTEXT = "buttonText";
     static final String STATE_RADIOBUTTONSCHECKER = "radioButtonsChecker";
     static final String STATE_CURRENTANSWER = "currentAnswer";
 
-    String buttonText;
+    String buttonText; //String variable for Button
 
-    TextView question;
+    TextView question; //String variable for question text
     LinearLayout quizCard; // LinnearLayout View for Quiz cards
-    LinearLayout quizAnswers;
-    LinearLayout.LayoutParams answersLayoutParams;
-    Button submitButton;
+    LinearLayout quizAnswers; // View for answers
+    LinearLayout.LayoutParams answersLayoutParams; //params for answers view
+    Button submitButton; // Next Button View
 
-    Toast toastStatus;
+    Toast toastStatus; //Toast container
 
-    int stepNo = -1;
-    boolean currentAnswer;
-    int rightAnswersCounter;
-    boolean radioButtonsChecker;
+    int stepNo = -1; //step number, starts from -1 (Main screen without question)
+    boolean currentAnswer; // Current Answer status right or false
+    int rightAnswersCounter; // Total right answers
+    boolean radioButtonsChecker; // Keep radiobutton checks
 
-    QuizCard quizCard1 = new QuizCard(1, "radio", "IX", 0, "9", "4", "11", "9");
+
+    /**
+     * Set up Quiz cards and put them in "q" array
+     */
+
+    QuizCard quizCard1 = new QuizCard(
+            1,
+            "radio",
+            "IX",
+            0,
+            "9",
+            "4",
+            "11",
+            "9");
+
     QuizCard quizCard2 = new QuizCard(2, "check", "XXXIII", 0, "153", "303", "33", "153", "303");
     QuizCard quizCard3 = new QuizCard(3, "radio", "CXLIV", 0, "144", "134", "144", "164");
     QuizCard quizCard4 = new QuizCard(4, "radio", "DCCLXXXII", 0, "782", "432", "732", "782");
@@ -54,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<QuizCard> q = new ArrayList<>();
 
-
+    /**
+     * Onclick listener for radiobuttons
+     */
     private View.OnClickListener mRadioAnswerListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -69,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Get saved instance
         if (savedInstanceState != null) {
             stepNo = savedInstanceState.getInt(STATE_STEPNO);
             rightAnswersCounter = savedInstanceState.getInt(STATE_RIGHTANSWERS);
@@ -83,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         quizAnswers = findViewById(R.id.quiz_answers);
         question = findViewById(R.id.quiz_header);
 
-        answersLayoutParams = new LinearLayout.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
+        answersLayoutParams = new LinearLayout.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
         answersLayoutParams.gravity = Gravity.CENTER;
 
         quizCard8.setQuestionImage(R.drawable.high_level);
@@ -97,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
         q.add(quizCard7);
         q.add(quizCard8);
 
+
+        // Main screen manager
         if (stepNo == -1) {
             firstPage();
         } else {
@@ -105,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save when rotate
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -118,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Override Back button
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -136,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
 
+    /**
+     * Generate next "screen"
+     */
     private void nextQuestion() {
 
         question.setGravity(Gravity.CENTER);
@@ -172,6 +202,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Generate new quizAnswers by type, calls from nextQuestion()
+     * @param type "radio", "check", "input"
+     */
     private void createAnswers(String type) {
 
         int answersLength = q.get(stepNo).getAnswers().length;
@@ -184,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
                 RadioButton[] radioButton = new RadioButton[answersLength];
                 RadioGroup radioGroup = new RadioGroup(this);
 
-                RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
+                RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
+                        RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
                 params.gravity = Gravity.CENTER;
 
                 for (int i = 0; answersLength > i; i++) {
@@ -237,6 +272,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Radio button answer checker for Listener
+     * @param view
+     */
     private void checkRadioAnswer(View view) {
 
         radioButtonsChecker = true;
@@ -251,6 +290,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Next Button Click Handler
+     * @param view
+     */
     public void submitAnswer(View view) {
 
         if (stepNo == q.size()) { //When quiz is done
@@ -342,6 +385,9 @@ public class MainActivity extends AppCompatActivity {
         nextQuestion();
     }
 
+    /**
+     * Reset Quiz status and back to first screen
+     */
     private void resetQuiz() {
         stepNo = -1;
         currentAnswer = false;
@@ -351,6 +397,9 @@ public class MainActivity extends AppCompatActivity {
         firstPage();
     }
 
+    /**
+     * Generate first screen
+     */
     private void firstPage(){
         question.setText(R.string.title);
         question.setGravity(Gravity.CENTER);
@@ -365,13 +414,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Toaster method
+     * @param toast - int r.string.right, r.string.wrong or r.string.empty
+     */
     private void showToast(int toast){
         if (toastStatus != null) toastStatus.cancel();
         toastStatus = Toast.makeText(this, toast, Toast.LENGTH_SHORT);
         toastStatus.show();
     }
 
-
+    /**
+     * Show result toasters
+     * @param answerRight true(right) or false(wrong)
+     */
     private void showResult(boolean answerRight) {
 
         if (answerRight) {
@@ -381,7 +437,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Show toast if nothing is checked
+     */
     private void nothingChecked(){
 
         showToast(R.string.empty);
