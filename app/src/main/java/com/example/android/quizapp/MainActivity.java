@@ -2,6 +2,7 @@ package com.example.android.quizapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
     static final String STATE_BUTTONTEXT = "buttonText";
     static final String STATE_RADIOBUTTONSCHECKER = "radioButtonsChecker";
     static final String STATE_CURRENTANSWER = "currentAnswer";
+    static final String STATE_SHAREVISIBILITY = "shareVisibility";
 
     String buttonText; //String variable for Button
+    String resultMessage;
 
     TextView question; // View for question text
     TextView quizResults; // Small text in answers layout
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout quizAnswers; // View for answers
     LinearLayout.LayoutParams answersLayoutParams;//params for answers view
     Button submitButton; // Next Button View
+    Button shareButton; // Share button on last screen
 
     Toast toastStatus; //Toast container
 
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     boolean currentAnswer; // Current Answer status right or false
     int rightAnswersCounter; // Total right answers
     boolean radioButtonsChecker; // Keep radiobutton checks
+    int shareVisibility = View.GONE;
 
     /**
      * Set up Quiz cards and put them in "q" array
@@ -96,20 +101,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         submitButton = (Button) findViewById(R.id.submit_button);
-
-        quizCard = findViewById(R.id.quiz_card);
-        quizAnswers = findViewById(R.id.quiz_answers);
-        question = findViewById(R.id.quiz_header);
+        shareButton = (Button) findViewById(R.id.share_button);
+        quizCard = (LinearLayout) findViewById(R.id.quiz_card);
+        quizAnswers = (LinearLayout) findViewById(R.id.quiz_answers);
+        question = (TextView) findViewById(R.id.quiz_header);
         quizResults = new TextView(this);
-        quizResults.setGravity(Gravity.CENTER);
 
+        shareButton.setVisibility(shareVisibility);
+        quizResults.setGravity(Gravity.CENTER);
         question.setGravity(Gravity.CENTER);
 
         answersLayoutParams = new LinearLayout.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.MATCH_PARENT);
         answersLayoutParams.gravity = Gravity.CENTER;
-
         quizAnswers.setLayoutParams(answersLayoutParams);
+
+
 
         quizCard8.setQuestionImage(R.drawable.high_level);
 
@@ -193,13 +200,16 @@ public class MainActivity extends AppCompatActivity {
             createAnswers(q.get(stepNo).getType());
 
         } else {
-
+            //End screen
             question.setText(R.string.done);
 
-            quizResults.setText(getString(R.string.result, rightAnswersCounter, q.size() ));
+            resultMessage = getString(R.string.result, rightAnswersCounter, q.size() );
+            quizResults.setText(resultMessage);
             quizAnswers.addView(quizResults);
 
             submitButton.setText(R.string.reset);
+            shareVisibility = View.VISIBLE;
+            shareButton.setVisibility(shareVisibility);
 
         }
 
@@ -394,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
         currentAnswer = false;
         rightAnswersCounter = 0;
         quizAnswers.removeAllViewsInLayout();
+        shareVisibility = View.GONE;
 
         firstPage();
     }
@@ -406,6 +417,7 @@ public class MainActivity extends AppCompatActivity {
         quizResults.setText(R.string.description);
         quizAnswers.addView(quizResults);
         submitButton.setText(R.string.start);
+        shareButton.setVisibility(shareVisibility);
     }
 
     /**
@@ -438,5 +450,15 @@ public class MainActivity extends AppCompatActivity {
 
         showToast(R.string.empty);
 
+    }
+
+    public void shareButtonClicked(View view){
+
+        String readyMessage = getString(R.string.share_premessage, rightAnswersCounter, q.size());
+
+        ShareCompat.IntentBuilder
+                .from(this).setType("text/plain")
+                .setChooserTitle(R.string.share_message)
+                .setText(readyMessage).startChooser();
     }
 }

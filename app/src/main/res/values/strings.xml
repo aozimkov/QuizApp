@@ -7,6 +7,9 @@
     <string name="next">Next</string>
     <string name="start">Start Quiz</string>
     <string name="reset">Restart</string>
+    <string name="share">Share</string>
+    <string name="share_message">Share with your friends</string>
+    <string name="share_premessage">I played in Quiz App with this result: %1$d/%2$d \nTry it!</string>
 
     <string name="equals">%1$s is equal</string>
     <string name="notequals">%1$s is NOT equal to</string>
