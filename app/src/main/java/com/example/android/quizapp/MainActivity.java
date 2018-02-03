@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     static final String STATE_SHAREVISIBILITY = "shareVisibility";
 
     String buttonText; //String variable for Button
-    String resultMessage;
 
     TextView question; // View for question text
     TextView quizResults; // Small text in answers layout
@@ -203,8 +202,7 @@ public class MainActivity extends AppCompatActivity {
             //End screen
             question.setText(R.string.done);
 
-            resultMessage = getString(R.string.result, rightAnswersCounter, q.size() );
-            quizResults.setText(resultMessage);
+            quizResults.setText(getString(R.string.result, rightAnswersCounter, q.size() ));
             quizAnswers.addView(quizResults);
 
             submitButton.setText(R.string.reset);
@@ -452,6 +450,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Share_button handler
+     * @param view
+     */
     public void shareButtonClicked(View view){
 
         String readyMessage = getString(R.string.share_premessage, rightAnswersCounter, q.size());
