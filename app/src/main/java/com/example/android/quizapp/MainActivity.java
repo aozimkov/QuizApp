@@ -188,11 +188,17 @@ public class MainActivity extends AppCompatActivity {
                 question.setText(getString(R.string.equals, q.get(stepNo).getQuestion()));
             }
 
-            submitButton.setText(R.string.next);
+            // if last card - change to "SHOW_RESULT"
+            if (stepNo == q.size()-1) {
+                submitButton.setText(R.string.show_result);
+            } else {
+                submitButton.setText(R.string.next);
+            }
 
             if (q.get(stepNo).getQuestionImage() != 0) {
                 ImageView questionImage = new ImageView(this);
                 questionImage.setImageResource(q.get(stepNo).getQuestionImage());
+                questionImage.setContentDescription(q.get(stepNo).getQuestion());
                 quizAnswers.addView(questionImage);
             }
 
@@ -208,6 +214,14 @@ public class MainActivity extends AppCompatActivity {
             submitButton.setText(R.string.reset);
             shareVisibility = View.VISIBLE;
             shareButton.setVisibility(shareVisibility);
+
+            //Final Toast
+
+            if (toastStatus != null ) toastStatus.cancel();
+            toastStatus = Toast.makeText(this,
+                    getString(R.string.result_toast, rightAnswersCounter, q.size()),
+                    Toast.LENGTH_SHORT);
+            toastStatus.show();
 
         }
 
@@ -363,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
             case "input":
 
                 EditText answer = (EditText) findViewById(R.id.input_field);
-                String input = answer.getText().toString();
+                String input = answer.getText().toString().trim();
 
                 if (input.length() == 0) {
                     nothingChecked();
@@ -371,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                if (q.get(stepNo).getRightAnswer().equals(input)) currentAnswer = true;
+                if (q.get(stepNo).getRightAnswer().equalsIgnoreCase(input)) currentAnswer = true;
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(answer.getWindowToken(), 0);

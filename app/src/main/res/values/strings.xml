@@ -4,22 +4,29 @@
     <string name="title">Ancient Roman Mathematical Test</string>
     <string name="description">Only A Roman Will Score VIII/VIII In This Roman Numerals Quiz</string>
 
+    <!-- Buttons -->
     <string name="next">Next</string>
     <string name="start">Start Quiz</string>
+    <string name="show_result">Show Result</string>
     <string name="reset">Restart</string>
     <string name="share">Share</string>
+
+    <!-- Sharing -->
     <string name="share_message">Share with your friends</string>
     <string name="share_premessage">I played in Quiz App with this result: %1$d/%2$d \nTry it!</string>
 
     <string name="equals">%1$s is equal</string>
     <string name="notequals">%1$s is NOT equal to</string>
 
+    <string name="result_toast">Your result is %1$d/%2$d</string>
     <string name="result">"Your have %1$d/%2$d right answers. Cool!"</string>
 
+    <!-- Toasts -->
     <string name="right">Right!</string>
     <string name="wrong">Wrong!</string>
     <string name="empty">Please choose an answer</string>
 
+    <!-- exit menu -->
     <string name="quitmessage">Are you sure you want to exit?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
@@ -27,5 +34,7 @@
     <string name="done">Quiz already done! Thanks!</string>
     <string name="inputexample">Example: 100</string>
 
+    <!-- Image descriptions -->
+    <string name="ancient_background">Ancient Rome background</string>
 
 </resources>
